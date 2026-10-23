@@ -1,0 +1,747 @@
+/* ---------- Variáveis: mude as cores do site em um só lugar ---------- */
+:root {
+    --navy: #1d2d44;
+    --creme: #f0ebd8;
+    --creme-escuro: #e6e0cb;
+    --texto: #0d1321;
+    --azul-medio: #3e5c76;
+    --azul-borda: #748cab;
+    --azul-claro: #9db4d1; /* texto sobre fundo escuro (contraste maior que #748cab) */
+}
+/* ---------- Reset e base ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+}
+body {
+    margin: 0;
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    background-color: var(--creme);
+    color: var(--texto);
+}
+h1, h2, h3 {
+    line-height: 1.25;
+    margin: 0 0 16px;
+}
+h2 { font-size: clamp(1.4rem, 3vw, 1.75rem); }
+h3 { font-size: 1.15rem; }
+p { margin: 0 0 16px; max-width: 70ch; }
+img { max-width: 100%; height: auto; }
+a {
+    color: var(--azul-medio);
+    font-weight: 600;
+    text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--azul-medio);
+    outline-offset: 3px;
+}
+/* ---------- Acessibilidade ---------- */
+.pular-conteudo {
+    position: absolute;
+    left: 12px;
+    top: -60px;
+    padding: 10px 16px;
+    background: var(--creme);
+    color: var(--texto);
+    border-radius: 6px;
+    z-index: 20;
+}
+.pular-conteudo:focus { top: 12px; }
+.so-leitor {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+/* ---------- Topo (hero) ---------- */
+.hero {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 560px);
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 64px 20px;
+    background-color: var(--navy);
+    color: var(--creme);
+}
+.hero img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--azul-borda);
+}
+.hero-texto { max-width: 560px; }
+.hero h1 {
+    font-size: clamp(1.7rem, 5vw, 2.6rem);
+    font-weight: 700;
+    color: var(--creme);
+}
+.hero-subtitulo {
+    font-size: 1.1rem;
+    color: var(--creme);
+}
+.hero-info {
+    list-style: none;
+    margin: 0 0 24px;
+    padding: 0;
+}
+.hero-info strong { color: var(--azul-claro); }
+.hero-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 2px solid var(--creme);
+    border-radius: 6px;
+    background-color: var(--creme);
+    color: var(--navy);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+.btn:hover {
+    background-color: var(--azul-claro);
+    border-color: var(--azul-claro);
+    text-decoration: none;
+}
+.btn-secundario {
+    background-color: transparent;
+    color: var(--creme);
+}
+.btn-secundario:hover { color: var(--navy); }
+.hero a:focus-visible,
+nav a:focus-visible,
+footer a:focus-visible {
+    outline-color: var(--azul-claro);
+}
+/* ---------- Navegação ---------- */
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(6, max-content);
+    justify-content: center;
+    gap: 8px 28px;
+    padding: 16px;
+    background-color: var(--navy);
+    border-top: 1px solid var(--azul-medio);
+}
+nav a {
+    position: relative;
+    color: var(--creme);
+    padding: 2px 0;
+    transition: color 0.2s;
+}
+/* sublinhado que cresce da esquerda para a direita */
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background-color: var(--azul-claro);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s;
+}
+nav a:hover::after,
+nav a:focus-visible::after {
+    transform: scaleX(1);
+}
+nav a:hover {
+    color: var(--azul-claro);
+    text-decoration: none;
+}
+/* ---------- Conteúdo ---------- */
+main {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 24px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 40px 20px 32px;
+}
+.card {
+    min-width: 0;
+    padding: clamp(20px, 3vw, 32px);
+    background-color: #f8f5e9;
+    border: 1px solid var(--azul-borda);
+    border-radius: 12px;
+    scroll-margin-top: 70px; /* evita que o menu fixo cubra o título ao clicar */
+}
+/* a seção para a qual o menu rolou ganha um brilho rápido */
+.card:target {
+    animation: destacar 1.2s ease-out;
+}
+@keyframes destacar {
+    from { box-shadow: 0 0 0 4px var(--azul-claro); }
+    to   { box-shadow: 0 0 0 0 transparent; }
+}
+/* ---------- Cards de habilidades (lado a lado) ---------- */
+.habilidades {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.habilidade-card {
+    min-width: 0;
+    padding: 20px;
+    background-color: var(--creme-escuro);
+    border-top: 4px solid var(--azul-medio);
+    border-radius: 8px;
+    text-align: center;
+}
+.habilidade-card h3 { margin-bottom: 8px; }
+.habilidade-card p {
+    margin: 0 0 6px;
+    max-width: none;
+}
+/* habilidade ainda não iniciada: borda tracejada e sem preenchimento */
+.habilidade-breve {
+    background-color: transparent;
+    border: 2px dashed var(--azul-borda);
+}
+/* ---------- Destaque para textos importantes ---------- */
+.destaque {
+    padding: 1px 8px;
+    background-color: #FFF3CD;
+    color: #856404;
+    font-weight: 600;
+    border-radius: 5px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+/* ---------- Projetos ---------- */
+.projetos-grade {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+.projeto {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: var(--creme-escuro);
+    border-left: 4px solid var(--azul-medio);
+    border-radius: 6px;
+}
+.projeto p { flex: 1; } /* empurra tags e link para o fim do card */
+.projeto-breve {
+    background-color: transparent;
+    border: 2px dashed var(--azul-borda);
+    border-radius: 6px;
+}
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+}
+.tags li {
+    padding: 2px 12px;
+    background-color: var(--navy);
+    color: var(--creme);
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
+/* ---------- Objetivos ---------- */
+.objetivos-lista {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.objetivos-lista li {
+    margin-bottom: 20px;
+    padding-left: 18px;
+    border-left: 4px solid var(--azul-borda);
+    max-width: 75ch;
+}
+.objetivos-lista li:last-child { margin-bottom: 0; }
+/* ---------- Hobbies ---------- */
+.galeria {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+.galeria figure {
+    min-width: 0;
+    margin: 0;
+}
+.galeria img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.galeria figcaption {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+/* ---------- Formulário ---------- */
+.formulario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+.lado-esquerdo,
+.lado-direito {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+label { font-weight: 500; }
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--azul-borda);
+    border-radius: 6px;
+    background-color: #fbf8ee;
+    color: var(--texto);
+    font: inherit;
+}
+textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+button {
+    grid-column: 1 / -1;
+    justify-self: center;
+    padding: 12px 32px;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--azul-medio);
+    color: var(--creme);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+button:hover { background-color: var(--navy); }
+/* ---------- Rodapé ---------- */
+footer {
+    margin-top: 20px;
+    padding: 48px 20px 24px;
+    background-color: var(--navy);
+    color: var(--creme);
+}
+.footer-conteudo {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 32px 48px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-bottom: 32px;
+}
+.footer-sobre { flex: 2 1 280px; }
+.footer-coluna { flex: 1 1 180px; }
+footer h2 {
+    margin-bottom: 8px;
+    font-size: 1.3rem;
+    color: var(--creme);
+}
+footer h3 {
+    margin-bottom: 12px;
+    font-size: 1rem;
+    color: var(--azul-claro);
+}
+footer p {
+    margin: 0;
+    max-width: 38ch;
+    color: var(--azul-claro);
+}
+footer ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+footer a { color: var(--creme); }
+footer a:hover { color: var(--azul-claro); }
+/* linha de baixo: copyright e voltar ao topo */
+.footer-base {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--azul-medio);
+    font-size: 0.9rem;
+}
+.footer-base p { max-width: none; }
+/* ---------- Layout da página com CSS Grid ---------- */
+body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        "header"
+        "nav"
+        "main"
+        "footer";
+    min-height: 100vh;
+    grid-template-rows: auto auto 1fr auto;
+}
+header.hero { grid-area: header; }
+body > nav { grid-area: nav; }
+.layout-conteudo { grid-area: main; }
+main { width: 100%; }
+body > footer { grid-area: footer; margin-top: 0; }
+#sobre { grid-column: span 7; }
+#conhecimentos { grid-column: span 5; }
+#projetos { grid-column: 1 / -1; }
+#objetivos { grid-column: span 7; }
+#hobbies { grid-column: span 5; }
+#contato-form { grid-column: 1 / -1; }
+/* Ajustes dos grids internos quando a seção é estreita */
+#conhecimentos .habilidades { grid-template-columns: 1fr; }
+#hobbies .galeria { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#hobbies .galeria figure:last-child { grid-column: 1 / -1; }
+/* ---------- Tablet ---------- */
+@media (max-width: 900px) {
+    #sobre, #conhecimentos, #projetos,
+    #objetivos, #hobbies, #contato-form {
+        grid-column: 1 / -1;
+    }
+    #conhecimentos .habilidades { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    #hobbies .galeria { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    #hobbies .galeria figure:last-child { grid-column: auto; }
+    .footer-conteudo { grid-template-columns: 2fr 1fr; }
+    .footer-sobre { grid-column: 1 / -1; }
+}
+/* ---------- Celular ---------- */
+@media (max-width: 700px) {
+    .hero {
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: center;
+        gap: 24px;
+        padding: 40px 20px;
+        text-align: center;
+    }
+    .hero-acoes { justify-content: center; }
+    nav {
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        gap: 8px 12px;
+        padding: 14px 12px;
+        text-align: center;
+    }
+    nav a { font-size: .9rem; }
+    main { gap: 18px; padding: 24px 14px; }
+    .projetos-grade { grid-template-columns: 1fr; }
+    #conhecimentos .habilidades { grid-template-columns: 1fr; }
+    #hobbies .galeria { grid-template-columns: 1fr; }
+    .formulario { grid-template-columns: 1fr; }
+    .footer-conteudo, .footer-base {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+    }
+    .footer-sobre { grid-column: auto; }
+    footer p { margin-inline: auto; }
+    footer ul { align-items: center; }
+    .footer-base { gap: 14px; }
+}
+/* ---------- Respeita quem desativa animações no sistema ---------- */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *,
+    *::before,
+    *::after { transition: none !important; }
+    .card:target { animation: none; }
+}
+/* ---------- Sidebar e área principal ---------- */
+.layout-conteudo {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 24px;
+    width: min(100%, 1440px);
+    margin-inline: auto;
+    padding: 32px 24px 48px;
+    align-items: start;
+}
+.layout-conteudo > main {
+    min-width: 0;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+.sidebar {
+    position: sticky;
+    top: 88px;
+    align-self: start;
+    min-width: 0;
+    padding: 24px 20px;
+    background: var(--navy);
+    color: var(--creme);
+    border: 1px solid var(--azul-medio);
+    border-radius: 12px;
+}
+.sidebar-perfil { text-align: center; }
+.sidebar-perfil img {
+    width: 108px;
+    height: 108px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--azul-claro);
+}
+.sidebar-perfil h2 { font-size: 1.2rem; margin: 12px 0 4px; }
+.sidebar-perfil p { margin: 0; color: var(--azul-claro); font-size: .9rem; }
+.sidebar-bloco { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--azul-medio); }
+.sidebar-bloco h3 { font-size: 1rem; margin-bottom: 10px; color: var(--azul-claro); }
+.sidebar-bloco ul { margin: 0; padding: 0; list-style: none; }
+.sidebar-detalhes li { display: grid; gap: 2px; margin-bottom: 12px; font-size: .85rem; }
+.sidebar-detalhes span { color: var(--creme); overflow-wrap: anywhere; }
+.sidebar-links { display: grid; gap: 8px; }
+.sidebar a { color: var(--creme); font-size: .9rem; }
+.sidebar a:hover { color: var(--azul-claro); }
+.sidebar a:focus-visible { outline-color: var(--azul-claro); }
+/* Com o espaço da sidebar, as seções ficam em uma coluna até monitores largos */
+@media (max-width: 1250px) {
+    .layout-conteudo #sobre,
+    .layout-conteudo #conhecimentos,
+    .layout-conteudo #objetivos,
+    .layout-conteudo #hobbies { grid-column: 1 / -1; }
+    .layout-conteudo #conhecimentos .habilidades { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .layout-conteudo #hobbies .galeria { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .layout-conteudo #hobbies .galeria figure:last-child { grid-column: auto; }
+}
+@media (max-width: 950px) {
+    .layout-conteudo { grid-template-columns: minmax(0, 1fr); padding: 24px 20px 40px; }
+    .sidebar { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px; }
+    .sidebar-perfil { text-align: left; }
+    .sidebar-bloco { margin: 0; padding-top: 12px; }
+}
+@media (max-width: 700px) {
+    .layout-conteudo { padding: 20px 14px 32px; gap: 18px; }
+    .sidebar { grid-template-columns: minmax(0, 1fr); padding: 20px; }
+    .sidebar-perfil { text-align: center; }
+    .layout-conteudo #conhecimentos .habilidades,
+    .layout-conteudo #hobbies .galeria { grid-template-columns: 1fr; }
+}
+/* ============================================================
+   RESPONSIVIDADE REFINADA — desktop, tablet e celular
+   Mantém a sidebar e o CSS Grid do portfólio.
+   ============================================================ */
+/* Evita elementos longos causando rolagem horizontal. */
+html { scroll-padding-top: 90px; }
+body { min-width: 320px; }
+.hero-texto, .layout-conteudo, .layout-conteudo > main,
+.card, .projeto, .habilidade-card, .footer-conteudo > * { min-width: 0; }
+.card, .sidebar, .projeto { overflow-wrap: anywhere; }
+.hero img, .sidebar-perfil img { flex-shrink: 0; }
+input, textarea, button { max-width: 100%; }
+/* Menu com largura flexível e sem extrapolar a tela. */
+body > nav {
+    grid-template-columns: repeat(6, minmax(0, max-content));
+    gap: 8px clamp(12px, 2vw, 28px);
+}
+/* Desktop intermediário: mais espaço para conteúdo e sidebar. */
+@media (max-width: 1200px) {
+    .layout-conteudo { grid-template-columns: 240px minmax(0, 1fr); gap: 20px; padding-inline: 20px; }
+    .layout-conteudo .projetos-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .layout-conteudo #sobre, .layout-conteudo #conhecimentos,
+    .layout-conteudo #objetivos, .layout-conteudo #hobbies { grid-column: 1 / -1; }
+    .layout-conteudo #conhecimentos .habilidades,
+    .layout-conteudo #hobbies .galeria { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .layout-conteudo #hobbies .galeria figure:last-child { grid-column: auto; }
+}
+/* Tablet: sidebar passa para cima do conteúdo principal. */
+@media (max-width: 950px) {
+    .layout-conteudo { grid-template-columns: minmax(0, 1fr); }
+    .sidebar { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 16px 24px; }
+    .sidebar-perfil { text-align: left; }
+    .sidebar-bloco { margin-top: 0; }
+    .layout-conteudo > main { width: 100%; }
+    .layout-conteudo .projetos-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .footer-conteudo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .footer-sobre { grid-column: 1 / -1; }
+}
+/* Celular: blocos empilhados, botões e campos confortáveis. */
+@media (max-width: 700px) {
+    html { scroll-padding-top: 20px; }
+    .hero { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 36px 16px; }
+    .hero h1 { font-size: clamp(1.55rem, 6vw, 2.2rem); }
+    .hero-subtitulo { font-size: 1rem; }
+    .hero img { width: 132px; height: 132px; }
+    body > nav {
+        position: static; /* Evita cobrir títulos em telas pequenas. */
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        padding: 12px;
+    }
+    body > nav a { display: block; font-size: .82rem; padding: 8px 4px; }
+    .layout-conteudo { gap: 18px; padding: 18px 12px 32px; }
+    .sidebar { grid-template-columns: minmax(0, 1fr); padding: 20px; gap: 16px; }
+    .sidebar-perfil { text-align: center; }
+    .sidebar-bloco { padding-top: 14px; }
+    .layout-conteudo > main { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .layout-conteudo > main > .card { grid-column: 1 / -1; padding: 20px 16px; }
+    .layout-conteudo .projetos-grade,
+    .layout-conteudo #conhecimentos .habilidades,
+    .layout-conteudo #hobbies .galeria,
+    .formulario { grid-template-columns: minmax(0, 1fr); }
+    .formulario { gap: 16px; }
+    .formulario button { grid-column: 1; justify-self: stretch; }
+    .footer-conteudo, .footer-base { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
+    .footer-sobre { grid-column: auto; }
+    footer { padding: 36px 16px 20px; }
+}
+/* Celulares estreitos. */
+@media (max-width: 420px) {
+    body > nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hero-acoes { display: grid; grid-template-columns: minmax(0, 1fr); }
+    .hero-acoes .btn { text-align: center; }
+    .layout-conteudo { padding-inline: 10px; }
+    .layout-conteudo > main > .card { padding: 18px 14px; }
+    .projeto, .habilidade-card { padding: 16px; }
+    .sidebar { padding: 18px 16px; }
+}
+/* ========== MENU HAMBÚRGUER RESPONSIVO ========== */
+/* Desktop: menu horizontal normal. */
+body > nav.menu-principal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+.menu-principal .menu-links {
+    display: grid;
+    grid-template-columns: repeat(6, max-content);
+    justify-content: center;
+    gap: 8px clamp(12px, 2vw, 28px);
+}
+.menu-principal .menu-toggle { display: none; }
+@media (max-width: 700px) {
+    body > nav.menu-principal {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 0;
+        text-align: left;
+    }
+    .menu-principal .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+        padding: 14px 20px;
+        background: var(--navy);
+        color: var(--creme);
+        border: 0;
+        border-radius: 0;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .menu-principal .menu-toggle:hover { background: var(--azul-medio); }
+    .menu-principal .menu-toggle:focus-visible { outline: 3px solid var(--azul-claro); outline-offset: -3px; }
+    .menu-icone { display: grid; gap: 5px; }
+    .menu-icone span { display: block; width: 24px; height: 2px; background: currentColor; border-radius: 2px; }
+    .menu-principal .menu-links { display: none; }
+    .menu-principal .menu-links.menu-aberto {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+        background: var(--navy);
+        border-top: 1px solid var(--azul-medio);
+        padding: 4px 12px 12px;
+    }
+    body > nav.menu-principal .menu-links a {
+        display: block;
+        padding: 11px 14px;
+        font-size: .95rem;
+        text-align: left;
+        border-radius: 6px;
+    }
+    .menu-principal .menu-links a:hover,
+    .menu-principal .menu-links a:focus-visible { background: var(--azul-medio); color: #fff; }
+    .card { scroll-margin-top: 74px; }
+    html { scroll-padding-top: 74px; }
+}
+
+/* Ajustes para os botões e a seção interativa. */
+button { font: inherit; cursor: pointer; }
+.hero-acoes { align-items: stretch; }
+.btn { display: inline-flex; align-items: center; justify-content: center;
+    font: inherit; font-weight: 600; line-height: 1.4; text-align: center; }
+.formulario > button { grid-column: 1 / -1; justify-self: center; }
+/* Inclui o contador, que não possui um id específico. */
+main > .card { grid-column: 1 / -1; }
+@media (min-width: 1251px) {
+    main > #sobre, main > #objetivos { grid-column: span 7; }
+    main > #conhecimentos, main > #hobbies { grid-column: span 5; }
+}
+/* Compatível com a função modoEscuro() do exercício.
+   O JavaScript define a cor branca diretamente no body. */
+body[style*="color: rgb(255, 255, 255)"] {
+    --texto: #ffffff;
+    --creme-escuro: #20314f;
+    --azul-medio: #a9c9f5;
+    --azul-borda: #748cab;
+    color-scheme: dark;
+}
+body[style*="color: rgb(255, 255, 255)"] .card a { color: #b9d7ff; }
+body[style*="color: rgb(255, 255, 255)"] .card .btn {
+    color: #1d2d44;
+}
+body[style*="color: rgb(255, 255, 255)"] .habilidade-card,
+body[style*="color: rgb(255, 255, 255)"] .projeto {
+    background-color: #20314f;
+    color: #ffffff;
+}
+body[style*="color: rgb(255, 255, 255)"] input,
+body[style*="color: rgb(255, 255, 255)"] textarea {
+    background-color: #101c30;
+    color: #ffffff;
+}
+body[style*="color: rgb(255, 255, 255)"] input::placeholder,
+body[style*="color: rgb(255, 255, 255)"] textarea::placeholder { color: #bbc7d9; }
+body[style*="color: rgb(255, 255, 255)"] .formulario > button {
+    background-color: #a9c9f5;
+    color: #101c30;
+}
+body[style*="color: rgb(255, 255, 255)"] .formulario > button:hover {
+    background-color: #d3e4fc;
+}
+/* Mantém a leitura ao destacar Sobre depois de ativar o modo escuro. */
+#sobre[style*="background-color: rgb(255, 243, 205)"] { color: #0d1321 !important; }
+#titulo_principal { scroll-margin-top: 90px; overflow-wrap: anywhere; }
+@media (max-width: 420px) {
+    .hero-acoes { width: 100%; }
+    .hero-acoes > .btn { width: 100%; }
+}
